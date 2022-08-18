@@ -3092,10 +3092,10 @@ input:checked+.toggleSwitchSlider:before {
     cursor: pointer;
     position: absolute;
     content: '';
-    height: 30%;
-    width: 100%;
-    top: 32%;
-    left: 0%;
+    height: 50%;
+    width: 115%;
+    top: 43%;
+    left: 13%;
     border-radius: 0%;
     box-shadow: 0 0 15px #43c628;
     animation: glow-grow 4s ease-out infinite;
