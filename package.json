@@ -1,5 +1,5 @@
 {
-  "name": "HolyAges",
+  "name": "holyages",
   "version": "1.1.3",
   "productName": "HolyAges",
   "description": "HolyAges Launcher",
@@ -42,8 +42,8 @@
     "winreg": "^1.2.4"
   },
   "devDependencies": {
-    "electron": "^19.0.10",
-    "electron-builder": "^23.1.0",
+    "electron": "^20.0.3",
+    "electron-builder": "^23.3.3",
     "eslint": "^8.20.0"
   },
   "repository": {
