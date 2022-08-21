@@ -15,6 +15,7 @@ const LoggerUtil1                    = require('./assets/js/loggerutil')
 const loggerUICore             = LoggerUtil1('%c[UICore]', 'color: #000668; font-weight: bold')
 const loggerAutoUpdater        = LoggerUtil1('%c[AutoUpdater]', 'color: #000668; font-weight: bold')
 const loggerAutoUpdaterSuccess = LoggerUtil1('%c[AutoUpdater]', 'color: #209b07; font-weight: bold')
+let updateLauncher = document.getElementById('launch_button');
 
 // Log deprecation and process warnings.
 process.traceProcessWarnings = true
@@ -45,14 +46,16 @@ if(!isDev){
             case 'checking-for-update':
                 loggerAutoUpdater.log('Checking for update..' + " " + info.version)
                 settingsUpdateButtonStatus('Vérification des mises à jour ...', true)
+                updateLauncher.disabled = true;
+                updateLauncher.innerText = "Mise à jour du launcher ...";
                 
                 break
             case 'update-available':
                 loggerAutoUpdaterSuccess.log('Nouvelle mise à jour disponible', info.version)
                 
                 if(process.platform === 'darwin'){
-                    info.darwindownload = `https://github.com/HillTea/Launcher/releases/download/v${info.version}/holyages-installation.dmg`
-                    //info.darwindownload = `https://github.com/HillTea/Launcher/releases/download/v${info.version}/holyages-installation${info.version}${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
+                    //info.darwindownload = `https://github.com/HillTea/Launcher/releases/download/v${info.version}/holyages-installation.dmg`
+                    info.darwindownload = `https://github.com/HillTea/Launcher/releases/download/v${info.version}/holyages-installation--${process.arch === 'arm64' ? '-arm64' : '-x64'}.dmg`
                     showUpdateUI(info)
                 }
                 
@@ -65,6 +68,8 @@ if(!isDev){
                         ipcRenderer.send('autoUpdateAction', 'installUpdateNow')
                     }
                 })
+                updateLauncher.disabled = false;
+                updateLauncher.innerText = "Jouer";
                 showUpdateUI(info)
                 break
             case 'update-not-available':

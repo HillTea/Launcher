@@ -335,13 +335,13 @@ function asyncSystemScan(mcVersion, launchAfter = true) {
                 // If the result is null, no valid Java installation was found.
                 // Show this information to the user.
                 setOverlayContent(
-                    'No Compatible<br>Java Installation Found',
-                    'In order to join WesterosCraft, you need a 64-bit installation of Java 8. Would you like us to install a copy?',
-                    'Install Java',
-                    'Install Manually'
+                    'Java non compatible<br>Veuillez installer une autre version.',
+                    'Pour jouer sur HolyAges, vous aurez besoin de la version java 8 (x64). Voulez-vous que nous l\'installion pour vous ?',
+                    'Installer Java',
+                    'Installer manuellement'
                 )
                 setOverlayHandler(() => {
-                    setLaunchDetails('Preparing Java Download..')
+                    setLaunchDetails('Préparation du téléchargement ...')
                     sysAEx.send({ task: 'changeContext', class: 'AssetGuard', args: [ConfigManager.getCommonDirectory(), ConfigManager.getJavaExecutable()] })
                     sysAEx.send({ task: 'execute', function: '_enqueueOpenJDK', argsArr: [ConfigManager.getDataDirectory()] })
                     toggleOverlay(false)
@@ -388,7 +388,7 @@ function asyncSystemScan(mcVersion, launchAfter = true) {
             if (m.result === true) {
 
                 // Oracle JRE enqueued successfully, begin download.
-                setLaunchDetails('Downloading Java..')
+                setLaunchDetails('Téléchargement de Java ...')
                 sysAEx.send({ task: 'execute', function: 'processDlQueues', argsArr: [[{ id: 'java', limit: 1 }]] })
 
             } else {
@@ -502,7 +502,7 @@ function dlAsync(login = true) {
         }
     }
 
-    setLaunchDetails('Please wait..')
+    setLaunchDetails('Veuillez patienter ...')
     toggleLaunchArea(true)
     setLaunchPercentage(0, 100)
 
@@ -533,12 +533,12 @@ function dlAsync(login = true) {
     })
     aEx.on('error', (err) => {
         loggerLaunchSuite.error('Error during launch', err)
-        showLaunchFailure('Error During Launch', err.message || 'See console (CTRL + Shift + i) for more details.')
+        showLaunchFailure('Erreur durant le lancement', err.message)
     })
     aEx.on('close', (code, signal) => {
         if (code !== 0) {
             loggerLaunchSuite.error(`AssetExec exited with code ${code}, assuming error.`)
-            showLaunchFailure('Error During Launch', 'See console (CTRL + Shift + i) for more details.')
+            showLaunchFailure('Erreur durant le lancement', 'Veuillez contacter un administateur.')
         }
     })
 
@@ -613,11 +613,12 @@ function dlAsync(login = true) {
                     }
 
                     setLaunchDetails('Préparation du lancement...')
+                   /*Code pour fermer le launcher après avoir lancer le jeu
                    setTimeout(() =>{
 
                        window.close();
 
-                       }, 20000)
+                       }, 20000)*/
                     break
             }
         } else if (m.context === 'error') {
@@ -652,7 +653,7 @@ function dlAsync(login = true) {
                 loggerLaunchSuite.error('Error during validation:', m.result)
 
                 loggerLaunchSuite.error('Error during launch', m.result.error)
-                showLaunchFailure('Error During Launch', 'Please check the console (CTRL + Shift + i) for more details.')
+               //showLaunchFailure('Error During Launch', 'Please check the console (CTRL + Shift + i) for more details.')
 
                 allGood = false
             }
@@ -664,7 +665,7 @@ function dlAsync(login = true) {
                 const authUser = ConfigManager.getSelectedAccount()
                 loggerLaunchSuite.log(`Sending selected account (${authUser.displayName}) to ProcessBuilder.`)
                 let pb = new ProcessBuilder(serv, versionData, forgeData, authUser, remote.app.getVersion())
-                setLaunchDetails('Launching game..')
+                setLaunchDetails('Lancement du jeu ...')
 
                 // const SERVER_JOINED_REGEX = /\[.+\]: \[CHAT\] [a-zA-Z0-9_]{1,16} joined the game/
                 const SERVER_JOINED_REGEX = new RegExp(`\\[.+\\]: \\[CHAT\\] ${authUser.displayName} vient de rejoindre le serveur !`)
